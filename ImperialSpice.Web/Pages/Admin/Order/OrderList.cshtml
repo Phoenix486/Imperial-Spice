@@ -1,0 +1,76 @@
+﻿@page
+@model ImperialSpice.Web.Pages.Admin.Order.OrderListModel
+
+<partial name="_Notification" />
+@{
+	var status = HttpContext.Request.Query["status"];
+    var cancelled = "text-primary";
+    var completed = "text-primary";
+    var inProcess = "text-primary";
+    var ready="text-primary";
+
+	if (status == "cancelled")
+    {
+        cancelled = "active text-warning";
+    }
+    else
+    {
+        if (status == "completed")
+        {
+            completed = "active text-warning";
+        }
+        else
+        {
+            if (status == "ready")
+            {
+                ready = "active text-warning";
+            }
+            else
+            {
+                inProcess = "active text-warning";
+            }
+        }
+    }
+}
+
+<div class="container p-3">
+    <div class="d-flex justify-content-between">
+        <div class="pd-2">
+            <h2 class="text-primary">Order List</h2>
+        </div>
+        <div class="pd-2">
+            <ul class="list-group list-group-horizontal-sm">
+                <a class="text-decoration-none" asp-page="OrderList" asp-route-status="cancelled">
+                    <li class="list-group-item @cancelled">Cancelled</li>
+                </a>
+                <a class="text-decoration-none" asp-page="OrderList" asp-route-status="completed">
+                    <li class="list-group-item @completed">Completed</li>
+                </a>
+                <a class="text-decoration-none" asp-page="OrderList" asp-route-status="ready">
+                    <li class="list-group-item @ready">Ready For PickUp</li>
+                </a>
+                <a class="text-decoration-none" asp-page="OrderList" asp-route-status="inProcess">
+                    <li class="list-group-item @inProcess">In Process</li>
+                </a>
+            </ul>
+        </div>
+    </div>
+    <br /><br />
+
+    <table id="DT_load" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>OrderId</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>OrderTotal</th>
+                <th>Pickup Time</th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section Scripts{
+    <script src="~/js/orderList.js"></script>
+}
